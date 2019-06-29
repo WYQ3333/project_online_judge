@@ -1,0 +1,82 @@
+<html>
+    <head>
+        <title>Online judge</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8">
+        <!--导入js库-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
+        <style type="text/css" media="screen">
+            body{
+                widht:100%
+                height:100%
+                background-image:url('./1.png')
+                background-size:100% 100%
+                background-repeat:no-repeat;
+            }
+            #editor {
+                position: absolute;
+                top: 5%;
+                right: 1%;
+                bottom: 10%;
+                left: 50%;
+                font-size: 20px;
+            }
+        </style>
+    </head>
+        
+    
+    <body>
+        <!--代码输入框（注意请务必设置高度，否则无法显示）rows=400 clos=800-->
+            <div style="font-size:20px; left:2%; right:55%;bottom:10%;top:5%;">{{id}}.{{name}}.{{star}}</div>           
+            <div style="font-size:20px; left:2%; right:55%;bottom:10%;top:10%;"><pre>{{desc}}</pre></div>
+            <div style="font-size:20px; left:2%; right:55%;bottom:10%;top:80%;"><pre>代码提交按钮: </pre></div>
+            <form id='formId' action="/compile/{{id}}" method="POST">                                    
+                <div id="editor" class="ace_editor" >
+                    <textarea type="text" class="ace_text-input" name="code_real"  >{{header}}</textarea>
+                </div>
+                <input  type="hidden" id="code" name ='code'/>
+                <input type="button" value="Submit" onclick="formSubmit()" style="width:15%;height:8%; font-size:30px " />
+            </form> 
+        <script>
+            //初始化对象
+            editor = ace.edit("editor");
+            
+            //设置风格和语言（更多风格和语言，请到github上相应目录查看）
+            theme = "clouds"
+            language = "c_cpp"
+            editor.setTheme("ace/theme/" + theme);
+            editor.session.setMode("ace/mode/" + language);
+            
+            //字体大小
+            editor.setFontSize(18);
+            
+            //设置只读（true时只读，用于展示代码）
+            editor.setReadOnly(false); 
+            
+            //自动换行,设置为off关闭
+            editor.setOption("wrap", "free")
+
+
+            var codeValue =  editor.getValue();
+            //alert(codeValue);
+            //启用提示菜单
+            ace.require("ace/ext/language_tools");
+            editor.setOptions({
+                    enableBasicAutocompletion: true,
+                    enableSnippets: true,
+                    enableLiveAutocompletion: true
+                });
+
+
+            function  formSubmit(){
+
+                var codeValue =   editor.getValue();
+                var input  = document.getElementById("code");
+                input.value = codeValue;
+                var form =  document.getElementById("formId");
+                form.submit();
+            }
+        </script>
+
+    </body>
+</html>
